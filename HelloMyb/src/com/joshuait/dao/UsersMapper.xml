@@ -15,8 +15,43 @@
 		<result column="user_login" property="displayName"  />
 	</resultMap>
 
-	<select id="selectUsers" parameterType="int" resultMap ="suersMaper">
+	<select id="getById" parameterType="int" resultMap ="suersMaper">
 		select * from wp_users where id =#{id}
 	</select>
+	
+	<select id="search" parameterType="com.joshuait.entity.Users"
+		 resultMap ="suersMaper">
+		select * from wp_users
+		<where>
+			<if test="id != null">
+			    id = #{id}
+			</if> 
+			<if test="userLogin != null">
+			    user_login = #{userLogin}
+			</if> 
+		</where>
+	</select>
+	
+	<insert id="insert" parameterType="com.joshuait.entity.Users" 
+		useGeneratedKeys="true"
+  	 	keyProperty="id">
+	  insert into wp_users
+		(user_login,user_pass,user_nicename,user_email,user_registered,user_activation_key,user_status,display_name)
+		values
+		(#{userLogin},#{userPass},#{userNicename},#{userEmail},#{userRegistered},#{userActivation_key},#{userStatus},#{displayName})
+	</insert>
+	
+	<update id="update" parameterType="com.joshuait.entity.Users">
+		  update wp_users 
+		   <set>
+		      <if test="userLogin != null">user_login=#{userLogin},</if>
+		      <if test="userPass != null">user_pass=#{userPass}</if>
+		    </set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+  delete from wp_users where id = #{id}
+</delete>
 
 </mapper>
