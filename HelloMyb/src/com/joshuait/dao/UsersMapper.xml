@@ -14,6 +14,7 @@
 		<result column="user_status" property="userStatus"  />
 		<result column="user_login" property="displayName"  />
 	</resultMap>
+	
 
 	<select id="getById" parameterType="int" resultMap ="suersMaper">
 		select * from wp_users where id =#{id}

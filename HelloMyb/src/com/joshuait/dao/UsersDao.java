@@ -15,8 +15,8 @@ public class UsersDao {
 	public static final String resource = "com/joshuait/dao/mybatis-config.xml";
 	public static InputStream inputStream = null;
 	public static SqlSessionFactory sqlSessionFactory = null;
-
-	public static void init() {
+	
+	public UsersDao(){
 		try {
 			inputStream = Resources.getResourceAsStream(resource);
 			sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
@@ -25,31 +25,8 @@ public class UsersDao {
 		}
 	}
 
-	public static void main(String[] args) throws IOException, ClassNotFoundException {
-		init();
-		// System.out.println(Main.getById(1));
 
-		/*Users user = new Users();
-		user.setUserLogin("abc");
-		user.setUserPass("123");
-
-		Main.insertUser(user);
-
-		System.out.println(user);
-*/
-		
-		Users user = new Users();
-		//user.setUserLogin("admin");
-
-		//update(user);
-		
-		//delete(18);
-		
-		Search(user);
-
-	}
-
-	public static Users getById(int id) {
+	public Users getById(int id) {
 		SqlSession session = sqlSessionFactory.openSession();
 		Users user = null;
 		try {
@@ -60,7 +37,7 @@ public class UsersDao {
 		return user;
 	}
 	
-	public static List<Users> Search(Users user) {
+	public List<Users> Search(Users user) {
 		SqlSession session = sqlSessionFactory.openSession();
 		List<Users> list = null;
 		try {
@@ -74,7 +51,7 @@ public class UsersDao {
 	
 	
 
-	public static void insert(Users user) {
+	public void insert(Users user) {
 
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
@@ -88,7 +65,7 @@ public class UsersDao {
 		}
 	}
 
-	public static void update(Users user) {
+	public void update(Users user) {
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
 			int n = session.update("org.mybatis.example.UsersMapper.update",user);
@@ -99,7 +76,7 @@ public class UsersDao {
 
 	}
 	
-	public static void delete(int id) {
+	public void delete(int id) {
 		SqlSession session = sqlSessionFactory.openSession();
 		try {
 			int n = session.update("org.mybatis.example.UsersMapper.delete",id);

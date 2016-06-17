@@ -10,13 +10,24 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+<div>
+	<a href="user-add.jsp">注册用户</a>
+</div>
+
+<div style="color: green;">
+	<%String msg = (String)request.getAttribute("msg"); %>
+	<%= msg %>
+</div>
 <table>
 	<tr><td>#</td><td>登录名称</td><td>昵称</td><td>邮箱</td></tr>
 <%
-	UsersDao.init();
-	List<Users> usersList = UsersDao.Search(new Users());
+	UsersDao userDao = new UsersDao();
+	List<Users> usersList = userDao.Search(new Users());
 	System.out.println();
 	for(Users u : usersList){
+		
+		
 %>
 	<tr><td><%= u.getId() %></td><td><%= u.getUserLogin()%></td><td><%= u.getUserEmail()%></td><td></td></tr>
 <%} %>
