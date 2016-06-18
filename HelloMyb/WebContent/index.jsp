@@ -1,3 +1,4 @@
+<%@page import="java.util.ArrayList"%>
 <%@page import="com.joshuait.entity.Users"%>
 <%@page import="java.util.List"%>
 <%@page import="com.joshuait.dao.UsersDao"%>
@@ -12,24 +13,44 @@
 <body>
 
 <div>
-	<a href="user-add.jsp">注册用户</a>
+	<a href="UserServlet?action=toAddPage">注册用户</a>
 </div>
 
 <div style="color: green;">
-	<%String msg = (String)request.getAttribute("msg"); %>
+	<%
+	String msg = (String)request.getAttribute("msg"); 
+	if(msg == null) msg ="";
+	String userLogin = (String)request.getAttribute("userLogin"); 
+	if(userLogin == null) userLogin="";
+	%>
 	<%= msg %>
 </div>
+
+<div>
+	<form action="UserServlet" method="POST">
+		<input type="hidden" name="action" value="search">
+		登录名称：<input type="text" name="userLogin" value="<%= userLogin %>">
+		<input type="submit" value="查询">
+	</form>
+</div>
 <table>
-	<tr><td>#</td><td>登录名称</td><td>昵称</td><td>邮箱</td></tr>
+	<tr><td>#</td><td>登录名称</td><td>邮箱</td><td>操作</td></tr>
 <%
-	UsersDao userDao = new UsersDao();
-	List<Users> usersList = userDao.Search(new Users());
-	System.out.println();
-	for(Users u : usersList){
-		
-		
+	List<Users> userList = (List<Users>)request.getAttribute("userList"); 
+	if(userList == null){
+		userList = new ArrayList<Users>();
+	}
+	for(Users u : userList){
 %>
-	<tr><td><%= u.getId() %></td><td><%= u.getUserLogin()%></td><td><%= u.getUserEmail()%></td><td></td></tr>
+	<tr>
+	<td><%= u.getId() %></td>
+	<td><%= u.getUserLogin()%></td>
+	<td><%= u.getUserEmail()%></td>
+	<td>
+		<a href="UserServlet?action=delete&id=<%= u.getId() %>">删除</a>
+		<a href="UserServlet?action=toEditPage&id=<%= u.getId() %>">编辑</a>	
+	</td>
+	</tr>
 <%} %>
 </table>
 </body>

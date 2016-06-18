@@ -10,13 +10,16 @@
 <title>新增用户</title>
 </head>
 <body>
+	<%
+		Users user = (Users)request.getAttribute("user");
+		System.out.println(user);
+	%>
 	
-	<form action="UserServlet">
-		<input type="hidden" name="action" value="addUser">
-		登录名称：<input type="text" name="userLogin">
-		密码：<input type="password" name="userPass">
-		确认密码：<input type="password" name="userPassConfirm">
-		邮箱：<input type="text" name="userEmail">
+	<form action="UserServlet" method="POST">
+		<input type="hidden" name="action" value="updateSave">
+		<input type="hidden" name="id" value="<%=user.getId()%>">
+		登录名称：<input type="text" name="userLogin" value="<%=user.getUserLogin()%>">
+		密码：<input type="password" name="userPass" value="<%=user.getUserPass()%>">
 		<input type="submit" value=" 提 交 ">
 	</form>
 </body>
